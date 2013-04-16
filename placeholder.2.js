@@ -1,7 +1,7 @@
 (function ($) {
     $.placeholder = {};
 
-    $.placeholder.hexToRGB = function hexToRGB(hex) {
+    $.placeholder.hexToRGB = function (hex) {
         var result = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
         var r = parseInt(result[1], 16),
             g = parseInt(result[2], 16),
@@ -13,11 +13,11 @@
     }
 
     $.placeholder.createBMP = function (width, height) {
-        this.updateImage = function($image) {
+        this.updateImage = function ($image) {
             $image.attr("src", 'data:image/bmp;base64,' + window.btoa(imageHeader + imageData.join("")));
         }
 
-        this.clear = function(color) {
+        this.clear = function (color) {
             var newColor = String.fromCharCode(color.blue, color.green, color.red, 0);
             for (var i = 0; i < sizeOfImage; i++) {
                 imageData[i] = newColor;
@@ -29,7 +29,7 @@
         var imageData = new Array();
         var sizeOfImage = imgWidth * imgHeight;
 
-        _asLittleEndianHex = function(value, bytes) {
+        _asLittleEndianHex = function (value, bytes) {
             var result = [];
             for (; bytes > 0; bytes--) {
                 result.push(String.fromCharCode(value & 255));
