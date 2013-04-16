@@ -12,7 +12,7 @@
         return this;
     }
 
-    $.placeholder.createBMP = function createGraphics(width, height) {
+    $.placeholder.createBMP = function (width, height) {
         this.updateImage = function($image) {
             $image.attr("src", 'data:image/bmp;base64,' + window.btoa(imageHeader + imageData.join("")));
         }
