@@ -1,4 +1,10 @@
 (function ($) {
+    // Pollute String's prototype so we can easily just
+    // "foo".repeat(x) instead of other nasty things.
+    String.prototype.repeat = function (num) {
+        return new Array(isNaN(num)? 1 : ++num).join(this);
+    }
+
     $.placeholder = {};
 
     $.placeholder.hexToRGB = function (hex) {
@@ -36,26 +42,18 @@
         }
 
         height = _asLittleEndianHex(height, 4),
-        width = _asLittleEndianHex(width, 4),
-        num_file_bytes = _asLittleEndianHex(sizeOfImage*4, 4),
-        imageHeader = [
-            'BM',
-            num_file_bytes,
-            '\x00\x00',
-            '\x00\x00',
-            '\x36\x00\x00\x00',
-            '\x28\x00\x00\x00',
-            width,
-            height,
-            '\x01\x00',
-            '\x20\x00',
-            '\x00\x00\x00\x00',
-            '\x00\x00\x00\x00',
-            '\x13\x0B\x00\x00',
-            '\x13\x0B\x00\x00',
-            '\x00\x00\x00\x00',
-            '\x00\x00\x00\x00'
-        ].join("");
+        width = _asLittleEndianHex(width, 4);
+        // Number of bytes in the image file
+        var n_f_b = _asLittleEndianHex(sizeOfImage*4, 4),
+            // Commonly used repeated null bytes
+            n_b = "\x00",
+            n_2 = n_b.repeat(2)
+            n_3 = n_b.repeat(3),
+            n_4 = n_b.repeat(4),
+            n_8 = n_b.repeat(8),
+            n_13_0B = ('\x13\x0B' + n_2).repeat(2);
+        // "Absolutely hideous!" - Everyone anywhere (significantly cleaner than the normal header, though)
+        imageHeader = [ 'BM', n_f_b, n_4, '\x36'+n_3, '\x28'+n_3, width, height, '\x01'+n_b, '\x20'+n_b, n_8, n_13_0B, n_8 ].join("");
         return this;
     }
 
