@@ -3,12 +3,9 @@
 
     $.placeholder.hexToRGB = function (hex) {
         var result = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
-        var r = parseInt(result[1], 16),
-            g = parseInt(result[2], 16),
-            b = parseInt(result[3], 16);
-        this.red = parseInt(r) % 256;
-        this.green = parseInt(g) % 256;
-        this.blue = parseInt(b) % 256;
+        this.red = parseInt(parseInt(result[1], 16)) % 256;
+        this.green = parseInt(parseInt(result[2], 16)) % 256;
+        this.blue = parseInt(parseInt(result[3], 16)) % 256;
         return this;
     }
 
